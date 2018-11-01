@@ -92,7 +92,13 @@
 
         if ([laContext canEvaluatePolicy:authPolicy error:&authError])
         {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            NSString *biometryType = @"touchid";
+            if (@available(iOS 11.0, *)) {
+               if (laContext.biometryType == LABiometryTypeFaceID) {
+                  biometryType = @"faceid";
+               }
+            }
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:biometryType];
         }
         else
         {
